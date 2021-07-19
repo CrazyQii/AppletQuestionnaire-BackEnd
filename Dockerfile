@@ -7,7 +7,7 @@ FROM python:3.9.1
 WORKDIR /home/app
 
 # 将文件内容复制到容器指定工作目录
-COPY ./backend /home/app
+COPY ./flaskr /home/app
 COPY requirements.txt /home/app
 
 # 更换pip源
@@ -18,4 +18,4 @@ RUN pip3 config set install.trusted-host mirrors.aliyun.com
 RUN pip install -r requirements.txt
 
 # Run app.py when the container launches
-CMD ["cd flaskr", "python", "run.py"]
+CMD ["python", "run.py"]
