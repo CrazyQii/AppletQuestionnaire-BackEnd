@@ -9,6 +9,8 @@ WORKDIR /home/app
 # 将文件内容复制到容器指定工作目录
 COPY ./flaskr /home/app
 COPY requirements.txt /home/app
+COPY 5500590_www.crazyqiqi.top.crt /home/app
+COPY 5500590_www.crazyqiqi.top.key /home/app
 
 # 更换pip源
 RUN pip3 config set global.index-url http://mirrors.aliyun.com/pypi/simple

@@ -50,6 +50,7 @@ def get_userInfo():
                                   '%Y-%m-%d %H:%M:%S'))
             db.session.add(account)
             db.session.commit()
+            result['data'] = account.to_json()
         else:
             account = db.session.query(Account).filter(
                 Account.openid == req['openid']).first()
