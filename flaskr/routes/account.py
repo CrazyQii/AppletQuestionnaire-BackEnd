@@ -3,7 +3,7 @@
 
 import requests
 from flask import Blueprint, request
-from models.account import Account, BaseInfo  # 账户模型
+from models.account import Account, BaseInfo, HistDisease  # 账户模型
 from models import db
 from utils import resp
 import datetime
@@ -11,7 +11,6 @@ import datetime
 from flask import Blueprint
 
 account_bp = Blueprint('account', __name__, url_prefix='/account')
-
 
 @account_bp.route('/login', methods=['POST'])
 def login():
@@ -34,7 +33,7 @@ def login():
 
 
 @account_bp.route('/userInfo', methods=['POST'])
-def get_userInfo():
+def post_userInfo():
     """ 用户信息获取 """
     result = {'code': 200, 'msg': 'ok', 'data': {}}
     try:
@@ -63,7 +62,8 @@ def get_userInfo():
 
 
 @account_bp.route('/baseInfo', methods=['POST'])
-def post_info():
+def post_baseInfo():
+    """ 提交用户本人的基本信息 """
     result = {'code': 200, 'msg': 'ok', 'data': {}}
     try:
         req = request.get_json()
@@ -85,6 +85,29 @@ def post_info():
         result['msg'] = f'上传信息错误:{e}'
     finally:
         return resp(result['code'], result['msg'], result['data'])
+
+
+@account_bp.route('/histDisease', methods=['POST'])
+def post_histDisease():
+    """ 提交用户历史症状基本信息 """
+    result = {'code': 200, 'msg': 'ok', 'data': {}}
+    try:
+        req = request.get_json()
+        if 'openid' not in req and 'symptom' not in req and 'reason' not in req and 'self_disease' not in req:
+            raise Exception('参数错误！')
+        histDisease = HistDisease(openid=req['openid'],
+                              symptom=req['symptom'],
+                              reason=req['reason'],
+                              self_disease=req['self_disease'])
+        db.session.add(histDisease)
+        db.session.commit()
+        result['data'] = histDisease.to_json()
+    except Exception as e:
+        result['code'] = 500
+        result['msg'] = f'提交历史信息错误:{e}'
+    finally:
+        return resp(result['code'], result['msg'], result['data'])
+    
 
 ############################################
 # 辅助函数

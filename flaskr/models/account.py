@@ -4,6 +4,7 @@
 from . import db
 
 class Account(db.Model):
+    # 微信账户基本信息
     __tablename__ = 'tb_account'
     nickname = db.Column(db.String(255), doc="昵称", nullable=True)
     openid = db.Column(db.String(255), doc="openid",  primary_key=True)
@@ -25,6 +26,7 @@ class Account(db.Model):
         }
         
 class BaseInfo(db.Model):
+    # 个人基础信息
     __tablename__ = 'tb_baseInfo'
     openid = db.Column(db.String(255), doc='openid', primary_key=True)
     name = db.Column(db.String(255), doc='', nullable=True)
@@ -51,7 +53,25 @@ class BaseInfo(db.Model):
             'feel': self.feel
         }
         
+class HistDisease(db.Model):
+    # 病史
+    __tablename__ = 'tb_hist_disease'
+    openid = db.Column(db.String(255), doc="账户id", primary_key=True)
+    symptom = db.Column(db.String(255), doc="家人症状")
+    reason = db.Column(db.String(255), doc="导致原因")
+    self_disease = db.Column(db.String(255), doc="自身慢性疾病")
+    
+    def to_json(self):
+        return {
+            'openid': self.openid,
+            'symptom': self.symptom,
+            'reason': self.reason,
+            'self_disease': self.self_disease
+        }
+        
+
 class Record(db.Model):
+    # 问卷分数结果
     __tablename__ = 'tb_record'
     openid = db.Column(db.String(255), doc="账户id", primary_key=True)
     finish_time = db.Column(db.String(255), doc="完成答卷时间")
@@ -65,6 +85,10 @@ class Record(db.Model):
     score_4_3 = db.Column(db.String(255), doc="")
     score_4_4 = db.Column(db.String(255), doc="")
     score_4_5 = db.Column(db.String(255), doc="")
+    score_5_1 = db.Column(db.String(255), doc="")
+    score_5_2 = db.Column(db.String(255), doc="")
+    score_5_3 = db.Column(db.String(255), doc="")
+    score_6 = db.Column(db.String(255), doc="")
     
     def to_json(self):
         return {
@@ -79,6 +103,10 @@ class Record(db.Model):
             'score_4_2': self.score_4_2,
             'score_4_3': self.score_4_3,
             'score_4_4': self.score_4_4,
-            'score_4_5': self.score_4_5
+            'score_4_5': self.score_4_5,
+            'score_5_1': self.score_5_1,
+            'score_5_2': self.score_5_2,
+            'score_5_3': self.score_5_3,
+            'score_6': self.score_6
         }
     
