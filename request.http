@@ -1,0 +1,41 @@
+# 病史信息提交
+POST http://127.0.0.1:5000/account/histDisease HTTP/1.1
+content-type: application/json
+
+{
+    "openid": "oHlJH4xPySNjwSqdsnHdA64awQJo",
+    "symptom": "阿道夫",
+    "reason": "['撒地方','afds']",
+    "self_disease": "['fdsa', 'aaaa']"
+}
+
+
+# 问卷信息获取
+POST  http://127.0.0.1:5000/ques/list HTTP/1.1
+content-type: application/json
+
+{
+    "id": "6" 
+}
+
+
+POST http://127.0.0.1:5000/ques/record HTTP/1.1
+content-type: application/json
+
+{
+    "answer1": [2,2,2,2,2,1,2,1,1,2,2,3,2,3,2,3,2,3,3,1,2,2,2,2,2],
+    "answer2": [6,4,6,5,6,4,6,5,6,4,6,5,6,4,6,4,7,4,6,4,4],
+    "answer3": [12,8,11,9,10,8,11,8,10,12,9,10,8,11,8,11,8,10],
+    "answer4": [12,8,11,9,10,8,11,8,10,12,9,10,8,11,8,11,8,10],
+    "answer5": [22,21,22,20,21,22,20,23,20,23,20,21],
+    "answer6": ["02:50","15","06:30","2","1","2","3","1","1","2","2","2","2","3","2","3","2","1"],	 
+    "openid": "oHlJH43A1j9j7nW_UHm0pNJ6nGgI"
+}
+
+
+GET http://127.0.0.1:5000/ques/advise  HTTP/1.1
+content-type: application/json
+
+{
+    "openid": "oHlJH43A1j9j7nW_UHm0pNJ6nGgI"
+}
