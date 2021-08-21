@@ -11,7 +11,7 @@ class Config(object):
     
 class DevelopmentConfig(Config):
     """ 开发环境 """
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:*******@127.0.0.1:3306/wenjuan'  # 远程数据库配置连接
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:******@127.0.0.1:3306/wenjuan'  # 远程数据库配置连接
     ENV = 'development'    
     DEBUG = True
     

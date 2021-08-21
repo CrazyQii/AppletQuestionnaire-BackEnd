@@ -3,7 +3,7 @@
 
 import requests
 from flask import Blueprint, request
-from models.account import Account, BaseInfo, HistDisease  # 账户模型
+from models.account import Account  # 账户模型
 from models import db
 from utils import resp
 import datetime
@@ -60,54 +60,6 @@ def post_userInfo():
     finally:
         return resp(result['code'], result['msg'], result['data'])
 
-
-@account_bp.route('/baseInfo', methods=['POST'])
-def post_baseInfo():
-    """ 提交用户本人的基本信息 """
-    result = {'code': 200, 'msg': 'ok', 'data': {}}
-    try:
-        req = request.get_json()
-        baseInfo = BaseInfo(openid=req['openid'],
-                            name=req['name'],
-                            date=req['date'],
-                            culture=req['culture'],
-                            erMing=req['erMing'],
-                            during=req['during'],
-                            keeping=req['keeping'],
-                            env=req['env'],
-                            voice=req['voice'],
-                            feel=req['feel'])
-        db.session.add(baseInfo)
-        db.session.commit()
-        result['data'] = baseInfo.to_json()
-    except Exception as e:
-        result['code'] = 500
-        result['msg'] = f'上传信息错误:{e}'
-    finally:
-        return resp(result['code'], result['msg'], result['data'])
-
-
-@account_bp.route('/histDisease', methods=['POST'])
-def post_histDisease():
-    """ 提交用户历史症状基本信息 """
-    result = {'code': 200, 'msg': 'ok', 'data': {}}
-    try:
-        req = request.get_json()
-        if 'openid' not in req and 'symptom' not in req and 'reason' not in req and 'self_disease' not in req:
-            raise Exception('参数错误！')
-        histDisease = HistDisease(openid=req['openid'],
-                              symptom=req['symptom'],
-                              reason=req['reason'],
-                              self_disease=req['self_disease'])
-        db.session.add(histDisease)
-        db.session.commit()
-        result['data'] = histDisease.to_json()
-    except Exception as e:
-        result['code'] = 500
-        result['msg'] = f'提交历史信息错误:{e}'
-    finally:
-        return resp(result['code'], result['msg'], result['data'])
-    
 
 ############################################
 # 辅助函数

@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from models.questionnaire import Questionnaire, Option, OptionSelect, SleepQues
-from models.account import Record, Account, HistDisease, BaseInfo
+from models.account import Record, Account
+from models.userInfo import HistDisease, BaseInfo
 from models import db
 from utils import resp
 import datetime
@@ -131,31 +132,6 @@ def get_advise():
             'ad4': advise(4, record['score_4_1'], record['score_4_2'], record['score_4_3'], record['score_4_4'], record['score_4_5']),
             'ad5': advise(5, record['score_5_1'], record['score_5_2'], record['score_5_3']),
             'ad6': advise(6, record['score_6'])
-        }
-    except Exception as e:
-        result['code'] = 500
-        result['msg'] = f'get advise error:{e}'
-    finally:
-        return resp(result['code'], result['msg'], result['data'])
-
-@questionnaire_bp.route('/histDisease', methods=['GET'])
-def get_histDisease():
-    result = {'code': 200, 'msg': 'ok', 'data': []}
-    try:
-        req = request.args
-        if 'openid' not in req:
-            raise Exception('args error！')
-        histDisease = db.session.query(HistDisease).filter(
-            HistDisease.openid == req['openid']).first()
-        baseInfo = db.session.query(BaseInfo).filter(
-            BaseInfo.openid == req['openid']).first()
-        
-        
-        if histDisease is None or baseInfo is None:
-            raise Exception('get None data from database!')
-        result['data'] = {
-            'histDisease': histDisease.to_json(),
-            'baseInfo': baseInfo.to_json()
         }
     except Exception as e:
         result['code'] = 500
