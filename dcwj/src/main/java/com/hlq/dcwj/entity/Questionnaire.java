@@ -5,6 +5,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+/**
+ * @Program: Questionnaire
+ * @Description: 调查问卷大的类目
+ * @Author: HanLinqi
+ * @Date: 2021/09/09 10:35:14
+ */
 
 @Entity
 @Table(name = "DCWJ_QUESIONNAIRE")
@@ -19,14 +27,16 @@ public class Questionnaire implements Serializable {
     @Column(name = "TITILE", nullable = false)
     private String title;
 
-    /** 试卷分数 */
-    @Column(name = "SCORE", nullable = false)
-    private Integer score;
-
     /** 发布时间 */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "PUBLISH_TIME", nullable = false)
     private Date publishTime;
+
+    /** 問卷題目 */
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL , fetch=FetchType.LAZY)
+    //级联保存、更新、删除、刷新;延迟加载。当删除用户，会级联删除该問卷的所有選項
+    //拥有mappedBy注解的实体类为关系被维护端
+    private List<Question> questions;
 
     public Long getId() {
         return id;
@@ -44,14 +54,6 @@ public class Questionnaire implements Serializable {
         this.title = title;
     }
 
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
     public Date getPublishTime() {
         return publishTime;
     }
@@ -60,12 +62,19 @@ public class Questionnaire implements Serializable {
         this.publishTime = publishTime;
     }
 
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
     @Override
     public String toString() {
         return "Questionnaire{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", score=" + score +
                 ", publishTime=" + publishTime +
                 '}';
     }

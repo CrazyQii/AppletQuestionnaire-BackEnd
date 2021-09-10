@@ -6,6 +6,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @Program: Account
+ * @Description: 小程序账户基本信息存储，不需要用户输入任何信息，自动获取
+ * @Author: HanLinqi
+ * @Date: 2021/09/09 10:35:14
+ */
+
 @Entity
 @Table(name = "DCWJ_ACCOUNT")
 public class Account implements Serializable {
@@ -35,6 +42,10 @@ public class Account implements Serializable {
     /** 微信头像 */
     @Column(name = "AVATAR")
     private String avatar;
+
+    /** 问卷完成状态 */
+    @Column(name = "FINISH_STATUS", nullable = false)
+    private Boolean finishStatus;
 
     /** 注册时间 */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -94,6 +105,14 @@ public class Account implements Serializable {
         this.avatar = avatar;
     }
 
+    public Boolean getFinishStatus() {
+        return finishStatus;
+    }
+
+    public void setFinishStatus(Boolean finishStatus) {
+        this.finishStatus = finishStatus;
+    }
+
     public Date getRegisterTime() {
         return registerTime;
     }
@@ -113,12 +132,13 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "Account{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", nickName='" + nickName + '\'' +
                 ", openId='" + openId + '\'' +
                 ", sessionKey='" + sessionKey + '\'' +
                 ", role='" + role + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", finishStatus=" + finishStatus +
                 ", registerTime=" + registerTime +
                 ", lastLoginTime=" + lastLoginTime +
                 '}';
