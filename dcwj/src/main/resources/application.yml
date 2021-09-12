@@ -2,11 +2,15 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-#    password: hsy98106
     url: jdbc:mysql://localhost:3306/dcwj?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
-    password: 123456
+    password: hsy98106
+#    password: 123456
   jpa:
     hibernate:
-      ddl-auto: create  # 每次运行加载不管之前是否有数据都会自动创建一个表，会造成数据丢失。
+      ddl-auto: create-drop  # 每次退出时删除
     show-sql: true  # 是否打印SQL，在开发时可以开启方便调试。
     database: mysql  # 数据库类型
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: false # 格式化sql语句

@@ -29,18 +29,18 @@ public class Question implements Serializable {
     private String kind;
 
     /** 问题文本 */
-    @Column(name = "QUESTION", nullable = false)
-    private String question;
+    @Column(name = "TITLE", nullable = false)
+    private String title;
 
     /** 显示选项-Json格式 */
-    @Column(name = "OPTION", nullable = false, columnDefinition = "JSON")
-    private String option;
+    @Column(name = "OPTIONS", columnDefinition = "JSON")
+    private String options;
 
     /** 正确答案-Json格式（可单选多选，可空）*/
     @Column(name = "ANSWER", columnDefinition = "JSON")
     private String answer;
 
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, optional=false)
+    @ManyToOne(targetEntity = Questionnaire.class, cascade = {})
     //可选属性optional=false,表示questionnaire不能为空。删除選項，不影响問卷
     @JoinColumn(name = "QUESTIONNAIRE_ID")
     private Questionnaire questionnaire;
@@ -61,20 +61,20 @@ public class Question implements Serializable {
         this.kind = kind;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getTitle() {
+        return title;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getOption() {
-        return option;
+    public String getOptions() {
+        return options;
     }
 
-    public void setOption(String option) {
-        this.option = option;
+    public void setOptions(String options) {
+        this.options = options;
     }
 
     public String getAnswer() {
@@ -98,8 +98,8 @@ public class Question implements Serializable {
         return "Question{" +
                 "id=" + id +
                 ", kind='" + kind + '\'' +
-                ", question='" + question + '\'' +
-                ", option='" + option + '\'' +
+                ", title='" + title + '\'' +
+                ", options='" + options + '\'' +
                 ", answer='" + answer + '\'' +
                 ", questionnaire=" + questionnaire +
                 '}';
